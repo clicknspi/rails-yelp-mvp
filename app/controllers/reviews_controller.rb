@@ -24,11 +24,25 @@ class ReviewsController < ApplicationController
   end
 
   def edit
+    @review = Review.find(params[:id])
   end
 
   def update
+    @review = Review.find(params[:id])
+
+    if @review.update(params[:review])
+      redirect_to @review, notice: 'Review updated successfully.'
+    else
+      render :edit
+    end
   end
 
   def destroy
+    @review = Review.find(params[:id])
+   if @review.destroy
+     redirect_to reviews_path, status: :see_other, notice: 'Review deleted successfully.'
+   else
+      redirect_to reviews_path, status: :see_other, notice: 'Failed to delete review.'
+   end
   end
 end
